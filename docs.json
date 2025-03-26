@@ -17,7 +17,8 @@
             "group": "Retrieval-Augmented Generation",
             "pages": [
               "RAG",
-              "RAG/DifferentRAGArchitectures"
+              "RAG/DifferentRAGArchitectures",
+              "LLM/privateLLMhosting"
             ]
           },          
           {
