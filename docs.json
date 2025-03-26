@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Massoud in BSUP",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -14,12 +14,18 @@
         "tab": "Guides",
         "groups": [
           {
+            "group": "Retrieval-Augmented Generation",
+            "pages": [
+              "RAG",
+              "RAG/DifferentRAGArchitectures"
+            ]
+          },          
+          {
             "group": "Get Started",
             "pages": [
               "introduction",
               "quickstart",
-              "development",
-              "RAG"
+              "development"
             ]
           },
           {
