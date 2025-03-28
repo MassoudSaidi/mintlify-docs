@@ -1,0 +1,97 @@
+---
+title: "New file"
+description: "Description of your new file."
+---
+
+To integrate the Model Context Protocol (MCP) with SharePoint, you can leverage both pre-built solutions and custom implementations depending on your requirements. Here's how to achieve this integration:
+
+## **1. Pre-Built MCP Connectors**
+
+Several MCP servers already include SharePoint integration capabilities:
+
+- The **Graphlit MCP Server** provides native SharePoint connectors for:
+  - Listing SharePoint libraries and folders[3](https://github.com/graphlit/graphlit-mcp-server)
+  - Ingesting documents directly from SharePoint repositories
+  - Automating file synchronization and metadata management
+- **MCP Marketplace** offers servers with Microsoft Graph API integration for SharePoint, enabling:
+  - Document search and retrieval through natural language queries
+  - Automated task execution (e.g., file approvals, metadata tagging)
+  - Real-time synchronization with AI agents[6](https://www.mcpmarket.com/server/sharepoint-1)
+
+## **2. Custom MCP Server Implementation**
+
+For tailored integrations, follow this process:
+
+```
+// Example using Microsoft Graph SDK (C#)
+var graphClient = new GraphServiceClient(
+    new AzureIdentityAuthenticationProvider(credential)
+);
+
+var sharepointConnector = new MCPConnectorBuilder()
+    .WithGraphAPI(graphClient)
+    .WithDocumentProcessing<SharePointFileProcessor>()
+    .Build();
+```
+
+**Step 2: Configure SharePoint Access**
+
+1. Enable Microsoft Graph API permissions for:
+   - `Files.ReadWrite.All`
+   - `Sites.ReadWrite.All`
+2. Implement MCP tools for:
+   - Document version tracking
+   - Metadata extraction
+   - Permission management[3](https://github.com/graphlit/graphlit-mcp-server)[6](https://www.mcpmarket.com/server/sharepoint-1)
+
+**Step 3: Expose SharePoint Tools via MCP**
+
+```
+{
+  "tool_manifest": {
+    "sharepoint_operations": {
+      "description": "Access SharePoint documents",
+      "parameters": {
+        "library": "string",
+        "query": "string"
+      },
+      "output": "file_list"
+    }
+  }
+}
+```
+
+## **3. Integration Methods**
+
+| **Approach**               | **Tools Required** | **Key Features**                                                                                                                                                                                                                                       |
+| :------------------------- | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Copilot Studio Integration | MCP Connector      | - Drag-and-drop SharePoint actions\ - Automatic API synchronization[2](https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/introducing-model-context-protocol-mcp-in-copilot-studio-simplified-integration-with-ai-apps-and-agents/) |
+| Semantic Kernel Plugin     | mcpdotnet SDK      | - C# function calling\ - LLM-driven document analysis[4](https://devblogs.microsoft.com/semantic-kernel/integrating-model-context-protocol-tools-with-semantic-kernel-a-step-by-step-guide/)                                                           |
+| Direct API Connection      | Microsoft Graph    | - Raw document access\ - Custom workflow creation[6](https://www.mcpmarket.com/server/sharepoint-1)                                                                                                                                                    |
+
+## **4. Security Considerations**
+
+- Use Azure AD authentication for MCP-SharePoint connections
+- Enable Data Loss Prevention (DLP) policies in Copilot Studio
+- Implement granular permissions through MCP's scoped access controls[2](https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/introducing-model-context-protocol-mcp-in-copilot-studio-simplified-integration-with-ai-apps-and-agents/)[5](https://techcommunity.microsoft.com/blog/azure-ai-services-blog/model-context-protocol-mcp-integrating-azure-openai-for-enhanced-tool-integratio/4393788)
+
+## **5. Testing & Validation**
+
+QA teams should verify:
+
+1. End-to-end document retrieval workflows
+2. Metadata consistency between SharePoint and MCP
+3. Permission inheritance across integrated systems
+4. Error handling for version conflicts[8](https://testcollab.com/blog/model-context-protocol-mcp-a-guide-for-qa-teams)
+
+For immediate implementation, start with the pre-built SharePoint connector in the [<u>Graphlit MCP Server</u>](https://github.com/graphlit/graphlit-mcp-server)[3](https://github.com/graphlit/graphlit-mcp-server), then extend functionality through Microsoft Graph API integrations as needed. Enterprise users can combine this with Copilot Studio's MCP integration for low-code configuration[2](https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/introducing-model-context-protocol-mcp-in-copilot-studio-simplified-integration-with-ai-apps-and-agents/)[6](https://www.mcpmarket.com/server/sharepoint-1).
+
+https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/introducing-model-context-protocol-mcp-in-copilot-studio-simplified-integration-with-ai-apps-and-agents/
+
+https://github.com/graphlit/graphlit-mcp-server
+
+https://smithery.ai/
+
+https://docs.graphlit.dev/
+
+https://github.com/graphlit/graphlit-samples/tree/main/nextjs/chat
