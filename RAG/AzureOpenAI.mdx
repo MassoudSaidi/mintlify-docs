@@ -1,0 +1,104 @@
+---
+title: "New file"
+description: "Description of your new file."
+---
+
+https://chatgpt.com/share/67f2d2a1-7040-800b-bb22-bb6f99fc9aaa
+
+To use **Azure OpenAI** instead of **OpenAI** in your AI applications, you'll need to update your API endpoint and authentication to use Azure's version of the service. Azure OpenAI provides the same models (e.g., GPT-4, GPT-3.5, embeddings) as OpenAI, but it's hosted on Azure and has a different authentication and endpoint pattern.
+
+Here’s how to do the switch step-by-step:
+
+---
+
+### ✅ 1. **Create an Azure OpenAI Resource**
+
+Go to the [Azure Portal](https://portal.azure.com/) and:
+
+- Create a new **Azure OpenAI** resource.
+- After deployment, go to the resource and create a **deployment** of the model you want (e.g., `gpt-4`, `gpt-35-turbo`, `text-embedding-ada-002`, etc.).
+- Note the **deployment name** — this is used instead of the model name in API requests.
+
+---
+
+### ✅ 2. **Get Your Azure OpenAI Credentials**
+
+From the Azure OpenAI resource:
+
+- Go to the **Keys and Endpoint** section.
+- Copy the **endpoint** (e.g., `https://YOUR-RESOURCE-NAME.openai.azure.com/`) and an **API key**.
+
+---
+
+### ✅ 3. **Use the Azure Endpoint in Code**
+
+#### For Chat Completions (e.g., GPT-4, GPT-3.5)
+
+Replace the OpenAI endpoint with something like:
+
+```
+https://YOUR-RESOURCE-NAME.openai.azure.com/openai/deployments/YOUR-DEPLOYMENT-NAME/chat/completions?api-version=2024-02-15-preview
+```
+
+Use the API key in the `api-key` header.
+
+#### Example in `fetch` (JavaScript):
+
+```typescript
+const response = await fetch("https://YOUR-RESOURCE-NAME.openai.azure.com/openai/deployments/YOUR-DEPLOYMENT-NAME/chat/completions?api-version=2024-02-15-preview", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "api-key": "YOUR-AZURE-API-KEY"
+  },
+  body: JSON.stringify({
+    messages: [{ role: "user", content: "Hello!" }],
+    temperature: 0.7,
+    max_tokens: 100,
+  })
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+---
+
+### ✅ 4. **SDK Support**
+
+If you’re using the official **OpenAI SDK**, you can point it to Azure like this (Node.js example):
+
+```bash
+npm install openai 
+```
+
+```typescript
+import { OpenAI } from 'openai';
+
+const openai = new OpenAI({
+  apiKey: "YOUR-AZURE-API-KEY", // still needed
+  baseURL: "https://YOUR-RESOURCE-NAME.openai.azure.com/openai/deployments/YOUR-DEPLOYMENT-NAME",
+  defaultQuery: { "api-version": "2024-02-15-preview" },
+  defaultHeaders: { "api-key": "YOUR-AZURE-API-KEY" }
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Hello!" }],
+  temperature: 0.7,
+  max_tokens: 100
+});
+```
+
+> 📌 **Note**: With Azure, you use **deployment name** instead of model name (`model` field is optional/ignored).
+
+---
+
+### ✅ 5. **Differences from OpenAI.com**
+
+| Feature              | Azure OpenAI                       | OpenAI.com                     |
+| :------------------- | :--------------------------------- | :----------------------------- |
+| Authentication       | `api-key` header                   | Bearer token (`Authorization`) |
+| Endpoint             | Custom Azure resource URL          | `https://api.openai.com/`      |
+| Model naming         | Use **deployment name**            | Use model name directly        |
+| Fine-tuning          | More limited                       | More open                      |
+| Enterprise readiness | Azure AD, private networking, etc. | More limited                   |
