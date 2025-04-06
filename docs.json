@@ -61,19 +61,24 @@
           "anchor": "Documentation",
           "href": "https://mintlify.com/docs",
           "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
         }
       ]
-    }
+    },
+    "anchors": [
+      {
+        "anchor": "Documentation",
+        "icon": "book-open",
+        "pages": [
+          "quickstart",
+          "development",
+          "navigation"
+        ]
+      },
+      {
+        "anchor": "Blog",
+        "href": "https://external-link.com/blog"
+      }
+    ]    
   },
   "logo": {
     "light": "/images/MintLogo.png",
